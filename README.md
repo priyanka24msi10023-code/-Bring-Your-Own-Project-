@@ -110,7 +110,7 @@ After running the program, the user is presented with a menu:
 
 ## 📸 Sample Output
 
-==== Personal Expense Tracker ====
+ Personal Expense Tracker 
 1. Add Expense
 2. View All Expenses
 3. Filter by Category

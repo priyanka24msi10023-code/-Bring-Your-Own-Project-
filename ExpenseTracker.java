@@ -83,3 +83,57 @@ public class ExpenseTrackerGUI extends JFrame {
         addButton.addActionListener(e -> addTransaction());
         showButton.addActionListener(e -> showTransactions());
         clearButton.addActionListener(e -> displayArea.setText(""));
+
+         setVisible(true);
+    }
+
+    private void addTransaction() {
+        try {
+            String type = (String) typeBox.getSelectedItem();
+            String category = (String) categoryBox.getSelectedItem();
+            double amount = Double.parseDouble(amountField.getText());
+
+            transactions.add(new Transaction(type, category, amount));
+            saveToFile();
+            updateBalance();
+
+            JOptionPane.showMessageDialog(this, "Transaction Added!");
+
+            amountField.setText("");
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Invalid input!");
+        }
+    }
+
+    private void showTransactions() {
+        displayArea.setText("");
+        for (Transaction t : transactions) {
+            displayArea.append(t.toString() + "\n");
+        }
+    }
+
+    private void updateBalance() {
+        double balance = 0;
+        for (Transaction t : transactions) {
+            if (t.type.equals("Income")) balance += t.amount;
+            else balance -= t.amount;
+        }
+        balanceLabel.setText("Balance: ₹" + balance);
+    }
+
+    private void saveToFile() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_NAME))) {
+            oos.writeObject(transactions);
+        } catch (IOException e) {
+            System.out.println("Error saving data");
+        }
+    }
+
+    private void loadFromFile() {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FILE_NAME))) {
+            transactions = (ArrayList<Transaction>) ois.readObject();
+        } catch (Exception e) {
+            transactions = new ArrayList<>();
+        }
+    }

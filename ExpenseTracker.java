@@ -137,3 +137,9 @@ public class ExpenseTrackerGUI extends JFrame {
             transactions = new ArrayList<>();
         }
     }
+
+
+    public static void main(String[] args) {
+        new ExpenseTrackerGUI();
+    }
+}
